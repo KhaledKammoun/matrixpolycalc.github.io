@@ -287,27 +287,3 @@ body {
 
 /*warning message*/
 
-.warning {
-  background-color: #FEEFB3;
-  border: 1px solid #FDDC5C;
-  border-radius: 5px;
-  color: #8B5F00;
-  padding: 10px;
-  margin-bottom: 20px;
-  height: 200px;
-  width: 300px;
-  text-align: center;
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, 10px);
-}
-
-.warning-header {
-  font-weight: bold;
-  font-size: 1.2em;
-  margin-bottom: 10px;
-}
-
-.warning-message {
-  font-size: 1em;
-}

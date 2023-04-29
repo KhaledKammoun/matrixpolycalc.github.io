@@ -3,20 +3,14 @@
 <head>
 	<title>Matrix and Polynomial Calculator</title>
 	<link rel="stylesheet" href="styles.css">
+	<script type="text/javascript" src="pol_script.js"></script>
+	<script src="script.js"></script>
 </head>
 <body>
 	<div class="container">
 		<div class="menu">
-			<div class="menu-item" onclick="toggleSubmenu('polynomial')">Polynomial</div>
-			<div class="menu-item" onclick="toggleSubmenu('matrix')">Matrix</div>
-		</div>
-		<div class="warning" id="warning">
-		  <div class="warning-header">
-		    Warning
-		  </div>
-		  <div class="warning-message">
-		    Your message goes here.
-		  </div>
+			<div class="menu-item">Polynomial</div>
+			<div class="menu-item">Matrix</div>
 		</div>
 		<div id="polynomial" class="submenu">
 		    <div class="submenu-item">
@@ -32,7 +26,7 @@
 		        <label class="polynomial-input">
 				  <span class="polynomial-input-label">First Polynomial</span>
 				  <div class="polynomial-input-container">
-				    <input class="polynomial-input-field" type="text" placeholder="Enter polynomial 1">
+				    <input id="p" class="polynomial-input-field" type="text" placeholder="Enter polynomial 1">
 				    <div class="polynomial-input-hint">(e.g. 2x^3 + 4x^2 - 3x + 1)</div>
 				  </div>
 				</label>
@@ -40,25 +34,23 @@
 				<label class="polynomial-input">
 				  <span class="polynomial-input-label">Second Polynomial</span>
 				  <div class="polynomial-input-container">
-				    <input class="polynomial-input-field" type="text" placeholder="Enter polynomial 2">
+				    <input id="q" class="polynomial-input-field" type="text" placeholder="Enter polynomial 2">
 				    <div class="polynomial-input-hint">(e.g. x^2 - 5x + 7)</div>
 				  </div>
 				</label>
 
 		        <div class="button-row">
-				    <button class="button button-left">ADD</button>
-				    <button class="button button-left">MUL</button>
-				    <button class="button button-left">DIV</button>
+				    <button id="ADD" class="button button-left">ADD</button>
+				    <button id="MUL" class="button button-left">MUL</button>
+				    <button id="DIV" class="button button-left">DIV</button>
 				</div>
 		        <div class="result-container">
 			     <div class="result-label">Result:</div>
-			     <div class="result-value"></div>
+			     <div id="result" class="result-value"></div>
 			    </div>
 		    </div>
 		</div>
 
-
-        
 		<div id="matrix" class="submenu">
 	    <div class="submenu-item" onclick="toggleSubmenu('1_mat')">1_Mat</div>
 	    <div class="submenu-item" onclick="toggleSubmenu('2_mat')">2_Mat</div>
@@ -107,6 +99,6 @@
 	</div>
 
 	</div>
-    <script src="script.js"></script>
+    
 </body>
 </html>
