@@ -15,7 +15,8 @@ document.addEventListener("DOMContentLoaded", function() {
     return true;
   }
   //values --> coefficient
-  function parsePolynomial(s) {
+  function parsePolynomial(s1) {
+    let s = s1.replace(/\s+/g, ''); //remove spaces from a string
     let tab = new Array(26).fill(0);
     let c = 1;
     let n = s.length;
@@ -70,6 +71,28 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     return tab;
   }
+  //display the result
+  function print_result(tab){
+    let ch = "";
+    for (let i = 25; i >= 0; i--) {
+        if (tab[i] != 0) {
+            if ((ch == "" && tab[i] < 0) || tab[i] < 0) {
+                ch += '-';
+            } else if (ch != "" && tab[i] > 0) {
+                ch += '+';
+            }
+            if (Math.abs(tab[i]) > 1 || i == 0) {
+                ch += Math.abs(tab[i]).toString();
+            }
+            if (i > 1) {
+                ch += ("x^" + i.toString());
+            } else if (i == 1) {
+                ch += 'x';
+            }
+        }
+    }
+    return ch ;
+  }
 
   function updateValues() {
     p = document.getElementById("p").value.trim();
@@ -85,7 +108,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
   function MUL() {
     updateValues();
-    document.getElementById("result").innerHTML = "The_Result";
+    document.getElementById("result").innerHTML =print_result(tab_p) ;
     console.log(tab_p);
     console.log(tab_q) ;
     }
