@@ -103,7 +103,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
   function ADD() {
     updateValues();
-    // Your code here
+    let tab_sum = tab_p;
+    for (let i = 0; i < 26; i++) {
+        tab_sum[i] += tab_q[i];
+    }
+    document.getElementById("result").innerHTML =print_result(tab_sum) ;
   }
 
   function MUL() {
