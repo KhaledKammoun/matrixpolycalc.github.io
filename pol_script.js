@@ -112,9 +112,33 @@ document.addEventListener("DOMContentLoaded", function() {
 
   function MUL() {
     updateValues();
-    document.getElementById("result").innerHTML =print_result(tab_p) ;
-    console.log(tab_p);
-    console.log(tab_q) ;
+    let tab_sum = new Array(26).fill(0);
+    
+    //deg of P and Q
+    let n1 = -1;
+    let n2 = -1;
+
+    for (let i = 25; i >= 0; i--) {
+        if (tab_p[i] != 0 && n1 == -1) {
+            n1 = i;
+        }
+        if (tab_q[i] != 0 && n2 == -1) {
+            n2 = i;
+        }
+        if (n1 != -1 && n2 != -1) {
+            break;
+        }
+    }
+    for (let i = 0; i < n1 + n2 + 1; i++) {
+        let x = 0;
+        for (let j = 0; j < n2 + 1; j++) {
+            if (i + j < n1 + n2 + 1) {
+                x += ((i + j - n2 < 0 ? 0 : tab_p[i + j - n2]) * tab_q[n2 - j]);
+            }
+        }
+        tab_sum[i] = x;
+    }
+    document.getElementById("result").innerHTML =print_result(tab_sum) ;
     }
 
   function DIV() {
