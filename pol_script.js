@@ -100,7 +100,23 @@ document.addEventListener("DOMContentLoaded", function() {
     tab_p = parsePolynomial(p);
     tab_q = parsePolynomial(q) ;
   }
-
+  function deg() {
+    updateValues();
+    n1 = -1 ;
+    n2 = -1 ;
+    for (let i = 25; i >= 0; i--) {
+        if (tab_p[i] != 0 && n1 == -1) {
+            n1 = i;
+        }
+        if (tab_q[i] != 0 && n2 == -1) {
+            n2 = i;
+        }
+        if (n1 != -1 && n2 != -1) {
+            return [n1,n2]
+        }
+    }
+    return [n1,n2]
+  }
   function ADD() {
     updateValues();
     let tab_sum = tab_p;
@@ -115,20 +131,7 @@ document.addEventListener("DOMContentLoaded", function() {
     let tab_sum = new Array(26).fill(0);
     
     //deg of P and Q
-    let n1 = -1;
-    let n2 = -1;
-
-    for (let i = 25; i >= 0; i--) {
-        if (tab_p[i] != 0 && n1 == -1) {
-            n1 = i;
-        }
-        if (tab_q[i] != 0 && n2 == -1) {
-            n2 = i;
-        }
-        if (n1 != -1 && n2 != -1) {
-            break;
-        }
-    }
+    [n1,n2] = deg() ;
     for (let i = 0; i < n1 + n2 + 1; i++) {
         let x = 0;
         for (let j = 0; j < n2 + 1; j++) {
@@ -143,7 +146,36 @@ document.addEventListener("DOMContentLoaded", function() {
 
   function DIV() {
     updateValues();
-    // Your code here
+    [n1,n2] = deg() ;
+    if (n1<n2)
+        document.getElementById("result").innerHTML = "The deg of the first polynomial<br>is less than the deg of the second polynomial<br>Try Again !!";
+    else {
+        let tab_Q = new Array(26).fill(0);
+        let tab_R = new Array(26).fill(0);
+        for (let i = n1 - n2; i >= 0; i--) {
+            tab_Q[i] += tab_p[i + n2];
+            for (let j = n2 - 1; j >= 0; j--) {
+                if (i + 1 + n2 - 1 - j <= n1 - n2) {
+                    tab_Q[i] += (tab_Q[i + 1 + n2 - 1 - j] * (-tab_q[j]));
+                }
+            }
+        }
+        for (let i = n2 - 1; i >= 0; i--) {
+            tab_R[i] += tab_p[i];
+            for (let j = n2 - 1; j >= 0; j--) {
+                if (n2 - 1 < i + 1 + n2 - 1 - j && i + 1 + n2 - 1 - j < n1) {
+                    tab_R[i] += (tab_Q[i + 1 - 1 - j] * (-tab_q[j]));
+                }
+            }
+        }
+        for (let i = 0; i < 26; i++) {
+            tab_Q[i] = tab_Q[i]/tab_q[n2];
+        }
+
+        for (let i = 0; i < 26; i++)
+            tab_R[i] = tab_R[i]/tab_q[n2];
+        document.getElementById("result").innerHTML ="A = (" + print_result(tab_q) + ')('+print_result(tab_Q) +") + (" + print_result(tab_R) +')';
+    }
   }
 
   document.getElementById("ADD").addEventListener("click", ADD);
