@@ -15,5 +15,5 @@ for i in range (n-n_1,-1,-1) :
     tab_Q[i]+=tab[i+n_1]
     for j in range(n_1-1,-1,-1) :
         if (i+1+n_1-1-j<n-n_1) :
-            tab_Q[i]+=(tab_Q[i+1+n_1-1-j]*tab_1[j])
+            tab_Q[i]+=(tab_Q[i+1+n_1-1-j]*(-tab_1[j]))
 print(tab_Q)
