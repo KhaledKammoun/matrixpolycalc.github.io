@@ -100,15 +100,15 @@ document.addEventListener("DOMContentLoaded", function() {
     tab_p = parsePolynomial(p);
     tab_q = parsePolynomial(q) ;
   }
-  function deg() {
+  function deg(tab_1,tab_2) {
     updateValues();
     n1 = -1 ;
     n2 = -1 ;
     for (let i = 25; i >= 0; i--) {
-        if (tab_p[i] != 0 && n1 == -1) {
+        if (tab_1[i] != 0 && n1 == -1) {
             n1 = i;
         }
-        if (tab_q[i] != 0 && n2 == -1) {
+        if (tab_2[i] != 0 && n2 == -1) {
             n2 = i;
         }
         if (n1 != -1 && n2 != -1) {
@@ -131,7 +131,7 @@ document.addEventListener("DOMContentLoaded", function() {
     let tab_sum = new Array(26).fill(0);
     
     //deg of P and Q
-    [n1,n2] = deg() ;
+    [n1,n2] = deg(tab_p,tab_q) ;
     for (let i = 0; i < n1 + n2 + 1; i++) {
         let x = 0;
         for (let j = 0; j < n2 + 1; j++) {
@@ -146,7 +146,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
   function DIV() {
     updateValues();
-    [n1,n2] = deg() ;
+    [n1,n2] = deg(tab_p,tab_q) ;
     if (n1<n2)
         document.getElementById("result").innerHTML = "The deg of the first polynomial<br>is less than the deg of the second polynomial<br>Try Again !!";
     else {
@@ -174,7 +174,15 @@ document.addEventListener("DOMContentLoaded", function() {
 
         for (let i = 0; i < 26; i++)
             tab_R[i] = tab_R[i]/tab_q[n2];
-        document.getElementById("result").innerHTML ="A = (" + print_result(tab_q) + ')('+print_result(tab_Q) +") + (" + print_result(tab_R) +')';
+
+        //tab_Q and tab_R' degrees
+        [n_p,n_q] = deg(tab_Q,tab_R) ;
+        
+        document.getElementById("result").innerHTML ="A = (" + print_result(tab_q) + ')';
+        if (n_p>0)
+            document.getElementById("result").innerHTML += ('('+print_result(tab_Q) +')') ;
+        if (n_q>0)
+            document.getElementById("result").innerHTML +=(' + (' + print_result(tab_R) +')') ;
     }
   }
 
