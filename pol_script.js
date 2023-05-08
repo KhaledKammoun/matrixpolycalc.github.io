@@ -100,6 +100,21 @@ document.addEventListener("DOMContentLoaded", function() {
     tab_p = parsePolynomial(p);
     tab_q = parsePolynomial(q) ;
   }
+  function valid_poly(){
+    updateValues() ;
+    const letters = Array.from({length: 26}, (_, i) => String.fromCharCode('a'.charCodeAt(0) + i)).filter(letter => letter !== 'x');
+    if (p.length==0 || q.length==0)
+        return false ;
+    for (let i = 0; i < p.length; i++) {
+        if (letters.includes(p[i].toLowerCase()))
+            return false;
+    }
+    for (let i = 0; i < q.length; i++) {
+        if (letters.includes(q[i].toLowerCase()))
+            return false;
+    }
+    return true;
+  }
   function deg(tab_1,tab_2) {
     updateValues();
     n1 = -1 ;
@@ -119,70 +134,85 @@ document.addEventListener("DOMContentLoaded", function() {
   }
   function ADD() {
     updateValues();
-    let tab_sum = tab_p;
-    for (let i = 0; i < 26; i++) {
-        tab_sum[i] += tab_q[i];
+    let test = valid_poly() ;
+    if (test==false)
+        document.getElementById("result").innerHTML = "I noticed that there is a syntax error in your polynomial.";
+    else {
+     let tab_sum = tab_p;
+     for (let i = 0; i < 26; i++) {
+         tab_sum[i] += tab_q[i];
+     }
+     document.getElementById("result").innerHTML =print_result(tab_sum) ;
     }
-    document.getElementById("result").innerHTML =print_result(tab_sum) ;
   }
 
   function MUL() {
     updateValues();
-    let tab_sum = new Array(26).fill(0);
-    
-    //deg of P and Q
-    [n1,n2] = deg(tab_p,tab_q) ;
-    for (let i = 0; i < n1 + n2 + 1; i++) {
-        let x = 0;
-        for (let j = 0; j < n2 + 1; j++) {
-            if (i + j < n1 + n2 + 1) {
-                x += ((i + j - n2 < 0 ? 0 : tab_p[i + j - n2]) * tab_q[n2 - j]);
+    let test = valid_poly() ;
+    if (test==false)
+        document.getElementById("result").innerHTML = "I noticed that there is a syntax error in your polynomial.";
+    else{
+        let tab_sum = new Array(26).fill(0);
+        
+        //deg of P and Q
+        [n1,n2] = deg(tab_p,tab_q) ;
+        for (let i = 0; i < n1 + n2 + 1; i++) {
+            let x = 0;
+            for (let j = 0; j < n2 + 1; j++) {
+                if (i + j < n1 + n2 + 1) {
+                    x += ((i + j - n2 < 0 ? 0 : tab_p[i + j - n2]) * tab_q[n2 - j]);
+                }
             }
+            tab_sum[i] = x;
         }
-        tab_sum[i] = x;
-    }
-    document.getElementById("result").innerHTML =print_result(tab_sum) ;
+        document.getElementById("result").innerHTML =print_result(tab_sum) ;
+     }
     }
 
   function DIV() {
     updateValues();
-    [n1,n2] = deg(tab_p,tab_q) ;
-    if (n1<n2)
-        document.getElementById("result").innerHTML = "The deg of the first polynomial<br>is less than the deg of the second polynomial<br>Try Again !!";
+    let test = valid_poly() ;
+    if (test==false)
+        document.getElementById("result").innerHTML = "I noticed that there is a syntax error in your polynomial.";
     else {
-        let tab_Q = new Array(26).fill(0);
-        let tab_R = new Array(26).fill(0);
-        for (let i = n1 - n2; i >= 0; i--) {
-            tab_Q[i] += tab_p[i + n2];
-            for (let j = n2 - 1; j >= 0; j--) {
-                if (i + 1 + n2 - 1 - j <= n1 - n2) {
-                    tab_Q[i] += (tab_Q[i + 1 + n2 - 1 - j] * (-tab_q[j]));
+        [n1,n2] = deg(tab_p,tab_q) ;
+        if (n1<n2)
+            document.getElementById("result").innerHTML = "The deg of the first polynomial is less than the deg of the second polynomial Try Again !!";
+        else {
+            let tab_Q = new Array(26).fill(0);
+            let tab_R = new Array(26).fill(0);
+            for (let i = n1 - n2; i >= 0; i--) {
+                tab_Q[i] += tab_p[i + n2];
+                for (let j = n2 - 1; j >= 0; j--) {
+                    if (i + 1 + n2 - 1 - j <= n1 - n2) {
+                        tab_Q[i] += (tab_Q[i + 1 + n2 - 1 - j] * (-tab_q[j]));
+                    }
                 }
             }
-        }
-        for (let i = n2 - 1; i >= 0; i--) {
-            tab_R[i] += tab_p[i];
-            for (let j = n2 - 1; j >= 0; j--) {
-                if (n2 - 1 < i + 1 + n2 - 1 - j && i + 1 + n2 - 1 - j < n1) {
-                    tab_R[i] += (tab_Q[i + 1 - 1 - j] * (-tab_q[j]));
+            for (let i = n2 - 1; i >= 0; i--) {
+                tab_R[i] += tab_p[i];
+                for (let j = n2 - 1; j >= 0; j--) {
+                    if (n2 - 1 < i + 1 + n2 - 1 - j && i + 1 + n2 - 1 - j < n1) {
+                        tab_R[i] += (tab_Q[i + 1 - 1 - j] * (-tab_q[j]));
+                    }
                 }
             }
-        }
-        for (let i = 0; i < 26; i++) {
-            tab_Q[i] = tab_Q[i]/tab_q[n2];
-        }
+            for (let i = 0; i < 26; i++) {
+                tab_Q[i] = (tab_Q[i]/tab_q[n2]).toFixed(2);
+            }
 
-        for (let i = 0; i < 26; i++)
-            tab_R[i] = tab_R[i]/tab_q[n2];
+            for (let i = 0; i < 26; i++)
+                tab_R[i] = (tab_R[i]/tab_q[n2]).toFixed(2);
 
-        //tab_Q and tab_R' degrees
-        [n_p,n_q] = deg(tab_Q,tab_R) ;
-        
-        document.getElementById("result").innerHTML ="A = (" + print_result(tab_q) + ')';
-        if (n_p>0)
-            document.getElementById("result").innerHTML += ('('+print_result(tab_Q) +')') ;
-        if (n_q>0)
-            document.getElementById("result").innerHTML +=(' + (' + print_result(tab_R) +')') ;
+            //tab_Q and tab_R' degrees
+            [n_p,n_q] = deg(tab_Q,tab_R) ;
+            
+            document.getElementById("result").innerHTML ="A = (" + print_result(tab_q) + ')';
+            if (n_p>0)
+                document.getElementById("result").innerHTML += ('('+print_result(tab_Q) +')') ;
+            if (n_q>0)
+                document.getElementById("result").innerHTML +=(' + (' + print_result(tab_R) +')') ;
+        }
     }
   }
 
