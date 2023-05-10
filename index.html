@@ -6,6 +6,20 @@
 	<link rel="stylesheet" href="styles.css">
 	<script type="text/javascript" src="pol_script.js"></script>
 	<script src="script.js"></script>
+	<script>
+		var lastClickedInputId = null;
+
+	    function setInputId(inputId) {
+	      lastClickedInputId = inputId;
+	    }
+
+	    function addCharacter(character) {
+	      if (lastClickedInputId) {
+	        var input = document.getElementById(lastClickedInputId);
+	        input.value += character;
+	      }
+	    }
+  </script>
 </head>
 <body>
 	<div class="container">
@@ -16,18 +30,18 @@
 		<div id="polynomial" class="submenu">
 		    <div class="submenu-item">
 		        <div class="math-keys">
-		            <span class="math-key">x<sup>2</sup></span>
-		            <span class="math-key"><var>x</var><sup><sup>□</sup></sup></span>
-		            <span class="math-key">&#8730;</span>
-		            <span class="math-key">+</span>
-		            <span class="math-key">-</span>
-		            <span class="math-key">*</span>
-		            <span class="math-key">/</span>
+		         <span class="math-key" onclick="addCharacter('x')">x</span>
+		         <span class="math-key" onclick="addCharacter('x^2')">x<sup>2</sup></span>
+				 <span class="math-key" onclick="addCharacter('x^3')">x<sup>3</sup></span>
+			     <span class="math-key" onclick="addCharacter('x^')">x<sup><sup>□</sup></sup></span>
+			     <span class="math-key" onclick="addCharacter('^')">^</span>
+				 <span class="math-key" onclick="addCharacter('+')">+</span>
+				 <span class="math-key" onclick="addCharacter('-')">-</span>
 		        </div>
 		        <label class="polynomial-input">
 				  <span class="polynomial-input-label">First Polynomial : A</span>
 				  <div class="polynomial-input-container">
-				    <input id="p" class="polynomial-input-field" type="text" placeholder="Enter polynomial 1">
+				    <input id="p" class="polynomial-input-field" type="text" placeholder="Enter polynomial 1" onclick="setInputId('p')">
 				    <div class="polynomial-input-hint">(e.g. 2x^3 + 4x^2 - 3x + 1)</div>
 				  </div>
 				</label>
@@ -35,7 +49,7 @@
 				<label class="polynomial-input">
 				  <span class="polynomial-input-label">Second Polynomial : B</span>
 				  <div class="polynomial-input-container">
-				    <input id="q" class="polynomial-input-field" type="text" placeholder="Enter polynomial 2">
+				    <input id="q" class="polynomial-input-field" type="text" placeholder="Enter polynomial 2" onclick="setInputId('q')">
 				    <div class="polynomial-input-hint">(e.g. x^2 - 5x + 7)</div>
 				  </div>
 				</label>
