@@ -86,6 +86,7 @@ document.addEventListener("DOMContentLoaded", function() {
     tab_p = parsePolynomial(p);
     tab_q = parsePolynomial(q) ;
   }
+  // polynomial validation function
   function valid_poly(){
     updateValues() ;
     const letters = Array.from({length: 26}, (_, i) => String.fromCharCode('a'.charCodeAt(0) + i)).filter(letter => letter !== 'x');
@@ -99,6 +100,13 @@ document.addEventListener("DOMContentLoaded", function() {
         if (letters.includes(q[i].toLowerCase()))
             return false;
     }
+    if (!p.match(/^[+-]?(\s*[0-9]*x\^[0-9]+|\s*[0-9]*x|\s*[0-9]+)\s*([+-]\s*\d*\s*x\^\d+|\s*[+-]\s*\d*\s*x|\s*[+-]\s*\d+)*$/) || !q.match(/^[+-]?(\s*[0-9]*x\^[0-9]+|\s*[0-9]*x|\s*[0-9]+)\s*([+-]\s*\d*\s*x\^\d+|\s*[+-]\s*\d*\s*x|\s*[+-]\s*\d+)*$/)) {
+      return false;
+    }
+     if (!p.match(/[0-9]*x(\^[0-9]+)?|[0-9]+/) || !q.match(/[0-9]*x(\^[0-9]+)?|[0-9]+/)) {
+      return false;
+    }
+    return true ;
   }
   function deg(tab_1,tab_2) {
     updateValues();
