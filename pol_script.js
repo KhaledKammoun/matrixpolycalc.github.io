@@ -1,19 +1,5 @@
 document.addEventListener("DOMContentLoaded", function() {
   var p, q, tab_p, tab_q;
-  //function validation
-  function validatePolynomialInput(input) {
-  // A polynomial should have at least one term
-    if (!input.match(/[0-9]*x\^[0-9]+/)) {
-      return false;
-    }
-
-    // Check that the input string only contains valid characters
-    if (!input.match(/^[+-]?(\s*[0-9]*x\^[0-9]+|\s*[0-9]*x|\s*[0-9]+)\s*([+-]\s*\d*\s*x\^\d+|\s*[+-]\s*\d*\s*x|\s*[+-]\s*\d+)*$/)) {
-      return false;
-    }
-
-    return true;
-  }
   //values --> coefficient
   function parsePolynomial(s1) {
     let s = s1.replace(/\s+/g, ''); //remove spaces from a string
@@ -113,7 +99,6 @@ document.addEventListener("DOMContentLoaded", function() {
         if (letters.includes(q[i].toLowerCase()))
             return false;
     }
-    return true;
   }
   function deg(tab_1,tab_2) {
     updateValues();
@@ -148,7 +133,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
   function MUL() {
     updateValues();
-    let test = valid_poly() ;
+    let test = valid_poly();
     if (test==false)
         document.getElementById("result").innerHTML = "I noticed that there is a syntax error in your polynomial.";
     else{
@@ -171,6 +156,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
   function DIV() {
     updateValues();
+
     let test = valid_poly() ;
     if (test==false)
         document.getElementById("result").innerHTML = "I noticed that there is a syntax error in your polynomial.";
